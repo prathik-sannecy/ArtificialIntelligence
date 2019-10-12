@@ -1,11 +1,14 @@
 import unittest
 import DinnerParty
 from Error import *
+from Person import *
 
 
-class MyTestCase(unittest.TestCase):
+class TestDinnerParty(unittest.TestCase):
     def testCalcTotalEmpty(self):
         self.assertRaises(BadPartyTableMatrix, DinnerParty.Calc)
+
+
 
 
 if __name__ == '__main__':
