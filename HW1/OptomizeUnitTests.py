@@ -195,11 +195,12 @@ class TestOptomize(unittest.TestCase):
         person3.SetRelationTo(person6, 2)
         person6.SetRelationTo(person3, 1)
 
+        persons=[person1, person6]
 
         person1_old = copy(person1)
         person6_old = copy(person6)
 
-        Swap(person1, person6)
+        Swap(persons[0], person6)
 
         person1_new = copy(person1)
         person6_new = copy(person6)
@@ -216,6 +217,87 @@ class TestOptomize(unittest.TestCase):
         self.assertEqual(person6_new.GetAdjRight(), person1.GetAdjRight())
         self.assertEqual(person6_new.GetDown(), person1.GetDown())
         self.assertEqual(person6_new.GetUp(), person1.GetUp())
+
+    def test_SwapDinnerTableDoubleSwap(self):
+        person_number1 = 1
+        person_type1 = "G"
+        person1 = Person(person_number1, person_type1)
+        person_number2 = 2
+        person_type2 = "H"
+        person2 = Person(person_number2, person_type2)
+        person_number3 = 3
+        person_type3 = "G"
+        person3 = Person(person_number3, person_type3)
+        person_number4 = 4
+        person_type4 = "H"
+        person4 = Person(person_number4, person_type4)
+
+        person1.SetDown(person3)
+        person2.SetDown(person4)
+        person3.SetUp(person1)
+        person4.SetUp(person2)
+
+        person1.SetAdjRight(person2)
+        person2.SetAdjLeft(person1)
+        person3.SetAdjRight(person4)
+        person4.SetAdjLeft(person3)
+
+
+
+
+
+
+
+
+        person1_old = deepcopy(person1)
+        person2_old = deepcopy(person2)
+        person3_old = deepcopy(person3)
+        person4_old = deepcopy(person4)
+
+        Swap(person1, person2)
+        Swap(person1, person2)
+        Swap(person1, person3)
+        Swap(person1, person3)
+        Swap(person1, person4)
+        Swap(person1, person4)
+        Swap(person2, person3)
+        Swap(person2, person3)
+        Swap(person2, person4)
+        Swap(person2, person4)
+        Swap(person3, person4)
+        Swap(person3, person4)
+
+
+        person1_new = copy(person1)
+        person2_new = copy(person2)
+        person3_new = copy(person3)
+        person4_new = copy(person4)
+        person1 = copy(person1_old)
+        person2 = copy(person2_old)
+        person3 = copy(person3_old)
+        person4 = copy(person4_old)
+
+        self.assertEqual(person1.number, person1_new.number)
+        self.assertEqual(person1_new.GetAdjLeft(), person1.GetAdjLeft())
+        self.assertEqual(person1_new.GetAdjRight(), person1.GetAdjRight())
+        self.assertEqual(person1_new.GetDown(), person1.GetDown())
+        self.assertEqual(person1_new.GetUp(), person1.GetUp())
+        self.assertEqual(person2.number, person2_new.number)
+        self.assertEqual(person2_new.GetAdjLeft(), person2.GetAdjLeft())
+        self.assertEqual(person2_new.GetAdjRight(), person2.GetAdjRight())
+        self.assertEqual(person2_new.GetDown(), person2.GetDown())
+        self.assertEqual(person2_new.GetUp(), person2.GetUp())
+        self.assertEqual(person3.number, person3_new.number)
+        self.assertEqual(person3_new.GetAdjLeft(), person3.GetAdjLeft())
+        self.assertEqual(person3_new.GetAdjRight(), person3.GetAdjRight())
+        self.assertEqual(person3_new.GetDown(), person3.GetDown())
+        self.assertEqual(person3_new.GetUp(), person3.GetUp())
+        self.assertEqual(person4.number, person4_new.number)
+        self.assertEqual(person4_new.GetAdjLeft(), person4.GetAdjLeft())
+        self.assertEqual(person4_new.GetAdjRight(), person4.GetAdjRight())
+        self.assertEqual(person4_new.GetDown(), person4.GetDown())
+        self.assertEqual(person4_new.GetUp(), person4.GetUp())
+        
 
 
     def test_SwapDinnerTableRelationsPreserved(self):
@@ -274,6 +356,47 @@ class TestOptomize(unittest.TestCase):
 
         self.assertEqual(person1.GetRelationTo(person2), 8)
         self.assertEqual(person1.GetAdjLeft(), person5)
+
+    def test_OptimizeTwoByTwo(self):
+        person_number1 = 1
+        person_type1 = "G"
+        person1 = Person(person_number1, person_type1)
+        person_number2 = 2
+        person_type2 = "H"
+        person2 = Person(person_number2, person_type2)
+        person_number3 = 3
+        person_type3 = "G"
+        person3 = Person(person_number3, person_type3)
+        person_number4 = 4
+        person_type4 = "H"
+        person4 = Person(person_number4, person_type4)
+
+        person1.SetDown(person3)
+        person2.SetDown(person4)
+        person3.SetUp(person1)
+        person4.SetUp(person2)
+
+        person1.SetAdjRight(person2)
+        person2.SetAdjLeft(person1)
+        person3.SetAdjRight(person4)
+        person4.SetAdjLeft(person3)
+
+        person1.SetRelationTo(person2, 1)
+        person1.SetRelationTo(person3, 2)
+        person1.SetRelationTo(person4, 3)
+        person2.SetRelationTo(person1, 4)
+        person2.SetRelationTo(person3, 5)
+        person2.SetRelationTo(person4, 6)
+        person3.SetRelationTo(person1, 7)
+        person3.SetRelationTo(person2, 8)
+        person3.SetRelationTo(person4, 9)
+        person4.SetRelationTo(person1, 10)
+        person4.SetRelationTo(person2, 11)
+        person4.SetRelationTo(person3, 12)
+
+        dinnerTable = [person1, person2, person3, person4]
+
+        Optomize(dinnerTable, 0, 1)
 
 if __name__ == '__main__':
     unittest.main()

@@ -36,10 +36,10 @@ def Swap( person1, person2):
         pass
 
 
-    tempPerson1AdjLeft = copy(person1.GetAdjLeft())
-    tempPerson1AdjRight = copy(person1.GetAdjRight())
-    tempPerson1Down = copy(person1.GetDown())
-    tempPerson1Up = copy(person1.GetUp())
+    tempPerson1AdjLeft = (person1.GetAdjLeft())
+    tempPerson1AdjRight = (person1.GetAdjRight())
+    tempPerson1Down = (person1.GetDown())
+    tempPerson1Up = (person1.GetUp())
 
     try:
         person1.SetAdjLeft(person2.GetAdjLeft())
@@ -83,5 +83,22 @@ def Swap( person1, person2):
 
 
 
-def Optomize(persons, lowest, next_lowest):
-    pass
+def Optomize(persons, lowest, nextLowest):
+    currentScore = Calc(persons)
+    print(currentScore)
+    persons.sort(key=lambda x: x.GetScore(), reverse=True)
+    Swap(persons[lowest], persons[nextLowest])
+    newScore = Calc(persons)
+    if newScore > currentScore:
+        Optomize(persons, 0, 1)
+    else:
+        Swap(persons[lowest], persons[nextLowest])
+        if nextLowest == (len(persons) - 1):
+            if lowest == nextLowest - 1:
+                return persons
+            else:
+                lowest += 1
+                nextLowest = lowest + 1
+                return Optomize(persons, lowest, nextLowest)
+        else:
+            return Optomize(persons, lowest, nextLowest + 1)
