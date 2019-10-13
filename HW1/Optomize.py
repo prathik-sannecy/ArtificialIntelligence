@@ -8,3 +8,4 @@ def Swap(dinnerTable, element1Row, element1Col, element2Row, element2Col):
     return dinnerTable
 
 def Optomize(persons):
+    pass

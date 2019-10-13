@@ -147,8 +147,6 @@ class TestPerson(unittest.TestCase):
         person3.SetRelationTo(person6, 2)
         person6.SetRelationTo(person3, 1)
 
-        
-        
         self.assertEqual(person1.GetScore(), 7)
         self.assertEqual(person2.GetScore(), 4)
         self.assertEqual(person3.GetScore(), 5)
