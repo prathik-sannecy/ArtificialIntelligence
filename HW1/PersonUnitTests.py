@@ -13,7 +13,7 @@ class TestPerson(unittest.TestCase):
     def test_AddRelationToSelfError(self):
         person_number = 1
         person1 = Person(person_number, "G")
-        self.assertRaises(InvalidPersonOperation, person1.SetRelationTo, person_number, 10)
+        self.assertRaises(InvalidPersonOperation, person1.SetRelationTo, person1, 10)
 
     def test_AddRelationToOther(self):
         person1_number = 1
