@@ -2,6 +2,15 @@ from DinnerParty import *
 from copy import deepcopy, copy
 
 def Swap( person1, person2):
+    """Swaps 2 people's positions at the dinner table
+
+    inputs:
+        (People) person1
+        (People) person2
+    returns:
+        None
+    """
+    # Get person1's neighbors to point at person2
     try:
         if person1.GetAdjLeft(): person1.GetAdjLeft().SetAdjRight(person2)
     except InvalidPersonOperation:
@@ -18,6 +27,8 @@ def Swap( person1, person2):
         if person1.GetUp(): person1.GetUp().SetDown(person2)
     except InvalidPersonOperation:
         pass
+
+    # Get person2's neighbors to point at person1
     try:
         if person2.GetAdjLeft(): person2.GetAdjLeft().SetAdjRight(person1)
     except InvalidPersonOperation:
@@ -35,12 +46,13 @@ def Swap( person1, person2):
     except InvalidPersonOperation:
         pass
 
-
+    # Temporarily store person1's neighbors (for swapping)
     tempPerson1AdjLeft = (person1.GetAdjLeft())
     tempPerson1AdjRight = (person1.GetAdjRight())
     tempPerson1Down = (person1.GetDown())
     tempPerson1Up = (person1.GetUp())
 
+    # Get person1 to point at person2's neighbors
     try:
         person1.SetAdjLeft(person2.GetAdjLeft())
     except InvalidPersonOperation:
@@ -58,6 +70,7 @@ def Swap( person1, person2):
     except InvalidPersonOperation:
         person1.SetUp(person2)
 
+    # Get person2 to point at person1's neighbors
     try:
         person2.SetAdjLeft(tempPerson1AdjLeft)
     except InvalidPersonOperation:
@@ -75,6 +88,10 @@ def Swap( person1, person2):
     except InvalidPersonOperation:
         person2.SetUp(person1)
 
+    # Swap person1/person2's corresponding 'position' at the table
+    tempPerson1Position = person1.GetPosition()
+    person1.SetPosition(person2.GetPosition())
+    person2.SetPosition(tempPerson1Position)
 
 
 
@@ -84,15 +101,36 @@ def Swap( person1, person2):
 
 
 def Optomize(persons, lowest, nextLowest):
+    """Algorithm to optomize the dinner table's seating arrangement score
+
+    inputs:
+        (list people) the people at the dinner table
+        (int) the lowest score to swap (ie 0=person with lowest score, 1=person with second lowest score, etc)
+        (int) the next lowest score to swap (ie 0=person with lowest score, 1=person with second lowest score, etc)
+    returns:
+        tuple(int score, list arrangement)
+            score is the maximum table score
+            arrangement is the seating arrangement that provides the score (index=person, value=position)
+    """
+    # calculate current table's score
     currentScore = Calc(persons)
     print(currentScore)
+    # Sort the people from lowest to highest score
     persons.sort(key=lambda x: x.GetScore(), reverse=True)
+    # Swap the two people with the nth, mth lowest score
     Swap(persons[lowest], persons[nextLowest])
     newScore = Calc(persons)
+    # if the new score after swap is better, restart the algorithm am the base addresses
     if newScore > currentScore:
         Optomize(persons, 0, 1)
+    # If the score after the swap is not better...
     else:
+        # Unswap
         Swap(persons[lowest], persons[nextLowest])
+        # Figure out which next two people's position to swap
+        # Strategy is to try to improve the lowest person's score
+        # first by swapping with all other people, then the next
+        # lowest person's score, and so on so forth
         if nextLowest == (len(persons) - 1):
             if lowest == nextLowest - 1:
                 return persons
