@@ -114,7 +114,6 @@ def Optomize(persons: object, lowest: object, nextLowest: object) -> object:
     """
     # calculate current table's score
     currentScore = Calc(persons)
-    print(currentScore)
     # Sort the people from lowest to highest score
     persons.sort(key=lambda x: x.GetScore(), reverse=True)
     # Swap the two people with the nth, mth lowest score
@@ -122,7 +121,7 @@ def Optomize(persons: object, lowest: object, nextLowest: object) -> object:
     newScore = Calc(persons)
     # if the new score after swap is better, restart the algorithm am the base addresses
     if newScore > currentScore:
-        Optomize(persons, 0, 1)
+        return Optomize(persons, 0, 1)
     # If the score after the swap is not better...
     else:
         # Unswap

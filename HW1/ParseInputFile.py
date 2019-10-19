@@ -12,11 +12,13 @@ def Parse(input_file):
     people = []
     with open(input_file) as file:
         num_people = int(file.readline())
-        for i in range(1, int(num_people / 2)):
-            person = Person(i, "G")
-            people.append(person)
-        for i in range(int(num_people / 2), num_people + 1):
+        for i in range(1, int(num_people / 2) + 1):
             person = Person(i, "H")
+            person.SetPosition(i)
+            people.append(person)
+        for i in range(int(num_people / 2) + 1, num_people + 1):
+            person = Person(i, "G")
+            person.SetPosition(i)
             people.append(person)
 
         for i in range(0, int(num_people / 2) - 1):

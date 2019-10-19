@@ -34,5 +34,17 @@ class TestParseInputFile(unittest.TestCase):
         self.assertEqual(people[9].GetRelationTo(people[0]), -6)
         self.assertEqual(people[9].GetRelationTo(people[8]), 10)
 
+        self.assertEqual(people[0].GetType(), "H")
+        self.assertEqual(people[4].GetType(), "H")
+        self.assertEqual(people[5].GetType(), "G")
+        self.assertEqual(people[9].GetType(), "G")
+
+        self.assertEqual(people[0].GetPosition(), 1)
+        self.assertEqual(people[4].GetPosition(), 5)
+        self.assertEqual(people[5].GetPosition(), 6)
+        self.assertEqual(people[9].GetPosition(), 10)
+
+
+
 if __name__ == '__main__':
     unittest.main()
