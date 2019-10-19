@@ -2,7 +2,8 @@ from ParseInputFile import *
 from Optomize import *
 import sys
 
-def Main(input_file):
+
+def Main(input_file) :
     sys.setrecursionlimit(10000)
     persons = Parse(input_file)
     score, people = Optomize(persons, 0, 1)
@@ -13,4 +14,6 @@ def Main(input_file):
 
 
 if __name__ == '__main__':
-    Main()
+    print("Enter Path to file")
+    file_path = input()
+    Main(file_path)

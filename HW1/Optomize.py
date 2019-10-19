@@ -94,13 +94,7 @@ def Swap( person1, person2):
     person2.SetPosition(tempPerson1Position)
 
 
-
-
-
-
-
-
-def Optomize(persons: object, lowest: object, nextLowest: object) -> object:
+def Optomize(persons, lowest, nextLowest):
     """Algorithm to optomize the dinner table's seating arrangement score
 
     inputs:

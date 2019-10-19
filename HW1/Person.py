@@ -1,5 +1,4 @@
 from Error import *
-from Position import *
 
 
 class Person():
