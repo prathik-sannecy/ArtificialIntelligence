@@ -100,7 +100,7 @@ def Swap( person1, person2):
 
 
 
-def Optomize(persons, lowest, nextLowest):
+def Optomize(persons: object, lowest: object, nextLowest: object) -> object:
     """Algorithm to optomize the dinner table's seating arrangement score
 
     inputs:
@@ -133,7 +133,7 @@ def Optomize(persons, lowest, nextLowest):
         # lowest person's score, and so on so forth
         if nextLowest == (len(persons) - 1):
             if lowest == nextLowest - 1:
-                return persons
+                return currentScore, persons
             else:
                 lowest += 1
                 nextLowest = lowest + 1

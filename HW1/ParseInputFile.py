@@ -1,6 +1,7 @@
 from Optomize import *
+from Person import *
 
-def Parse(file):
+def Parse(input_file):
     """Parse the file, returns back all the people at the table
 
     inputs:
@@ -8,4 +9,9 @@ def Parse(file):
     returns:
         (list of People) all the people in the dinner table initialized
     """
-    pass
+    people = []
+    with open(input_file) as file:
+        num_people = file.readline()
+        for i in range(0, num_people):
+            person = Person()
+        people.append()

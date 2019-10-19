@@ -59,7 +59,7 @@ class TestDinnerParty(unittest.TestCase):
 
         dinnerTable = {person1, person2, person3, person4, person5, person6}
 
-        self.assertEqual(DinnerParty.Calc(dinnerTable), 21)
+        self.assertEqual(DinnerParty.Calc(dinnerTable), 29)
 
 
 

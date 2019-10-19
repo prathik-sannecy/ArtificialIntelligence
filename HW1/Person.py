@@ -209,10 +209,16 @@ class Person():
             score += self.GetRelationTo(self.down)
         # If there is a person to the left of this person...
         if self.adjLeft:
+            # Increment the score by 1 if the person is of opposite type (guest to host and vice/versa)
+            if self.adjLeft.GetType() != self.GetType():
+                score += 1
             # Increment the score by the person's relationship to this person
             score += self.GetRelationTo(self.adjLeft)
         # If there is a person above (looking topdown) of this person...
         if self.up:
+            # Increment the score by 2 if the person is of opposite type (guest to host and vice/versa)
+            if self.up.GetType() != self.GetType():
+                score += 2
             # Increment the score by the person's relationship to this person
             score += self.GetRelationTo(self.up)
 
