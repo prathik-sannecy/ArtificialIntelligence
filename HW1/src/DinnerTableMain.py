@@ -8,9 +8,9 @@ def Main(input_file) :
     persons = Parse(input_file)
     score, people = Optomize(persons, 0, 1)
     print(score)
-    people.sort(key=lambda x: x.GetNumber(), reverse=True)
+    people.sort(key=lambda x: x.GetNumber())
     for person in people:
-        print(person.GetPosition())
+        print(str(person.GetNumber()) + " " + str(person.GetPosition()))
 
 
 if __name__ == '__main__':
