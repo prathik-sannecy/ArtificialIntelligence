@@ -4,7 +4,7 @@ from src.ParseInputFile import *
 
 class TestParseInputFile(unittest.TestCase):
     def test_hw1_inst1(self):
-        people = Parse("Input_Files/hw1-inst1.txt")
+        people = Parse("../Input_Files/hw1-inst1.txt")
         self.assertEqual(len(people), 10)
         for i in range(0, 10):
             self.assertEqual(people[i].GetNumber(), i+1)
