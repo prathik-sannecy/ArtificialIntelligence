@@ -5,7 +5,7 @@ import sys
 def Main(input_file):
     sys.setrecursionlimit(10000)
     persons = Parse(input_file)
-    people, score = Optomize(persons, 0, 1)
+    score, people = Optomize(persons, 0, 1)
     print(score)
     people.sort(key=lambda x: x.GetNumber(), reverse=True)
     for person in people:
