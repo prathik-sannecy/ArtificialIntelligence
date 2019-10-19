@@ -1,6 +1,6 @@
 import unittest
-from src.Person import *
-from src.Optomize import *
+from Person import *
+from Optomize import *
 from copy import copy, deepcopy
 
 

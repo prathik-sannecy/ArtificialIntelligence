@@ -1,4 +1,4 @@
-from src.Person import *
+from Person import *
 
 def Parse(input_file):
     """Parse the file, returns back all the people at the table

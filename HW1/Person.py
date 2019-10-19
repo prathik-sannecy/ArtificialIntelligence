@@ -1,4 +1,4 @@
-from src.Error import *
+from Error import *
 
 
 class Person():

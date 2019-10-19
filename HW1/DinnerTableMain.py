@@ -1,5 +1,5 @@
-from src.ParseInputFile import *
-from src.Optomize import *
+from ParseInputFile import *
+from Optomize import *
 import sys
 
 

@@ -1,5 +1,5 @@
 import unittest
-from src.ParseInputFile import *
+from ParseInputFile import *
 
 
 class TestParseInputFile(unittest.TestCase):

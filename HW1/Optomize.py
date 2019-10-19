@@ -1,5 +1,5 @@
-from src.DinnerParty import *
-from src.Error import *
+from DinnerParty import *
+from Error import *
 
 
 def Swap( person1, person2):
