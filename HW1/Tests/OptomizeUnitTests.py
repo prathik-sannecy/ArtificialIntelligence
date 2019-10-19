@@ -1,9 +1,7 @@
 import unittest
-import DinnerParty
-from Error import *
-from Person import *
-from Optomize import *
-from copy import copy, copy
+from src.Person import *
+from src.Optomize import *
+from copy import copy, deepcopy
 
 
 class TestOptomize(unittest.TestCase):

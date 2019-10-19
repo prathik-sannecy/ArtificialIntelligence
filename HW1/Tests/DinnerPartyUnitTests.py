@@ -1,7 +1,6 @@
 import unittest
-import DinnerParty
-from Error import *
-from Person import *
+from src import DinnerParty
+from src.Person import *
 
 
 class TestDinnerParty(unittest.TestCase):

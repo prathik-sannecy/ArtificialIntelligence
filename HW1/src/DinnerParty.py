@@ -1,5 +1,3 @@
-from Error import *
-
 def Calc(persons):
     """Calculate the total score of the dinner table
 

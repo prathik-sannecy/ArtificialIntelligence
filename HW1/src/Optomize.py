@@ -1,5 +1,6 @@
-from DinnerParty import *
-from copy import deepcopy, copy
+from src.DinnerParty import *
+from src.Error import *
+
 
 def Swap( person1, person2):
     """Swaps 2 people's positions at the dinner table

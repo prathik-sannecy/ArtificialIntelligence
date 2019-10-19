@@ -1,5 +1,4 @@
-from Optomize import *
-from Person import *
+from src.Person import *
 
 def Parse(input_file):
     """Parse the file, returns back all the people at the table
