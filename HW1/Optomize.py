@@ -1,4 +1,4 @@
-from DinnerParty import *
+from CalculateScore import *
 from Error import *
 
 
