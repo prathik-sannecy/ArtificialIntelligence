@@ -1,5 +1,5 @@
 import unittest
-import DinnerParty
+import CalculateScore
 from Person import *
 
 
@@ -58,7 +58,7 @@ class TestDinnerParty(unittest.TestCase):
 
         dinnerTable = {person1, person2, person3, person4, person5, person6}
 
-        self.assertEqual(DinnerParty.Calc(dinnerTable), 29)
+        self.assertEqual(CalculateScore.Calc(dinnerTable), 29)
 
 
 

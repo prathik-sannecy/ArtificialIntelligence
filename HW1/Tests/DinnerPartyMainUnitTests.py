@@ -1,5 +1,5 @@
 import unittest
-from DinnerTableMain import *
+from DinnerPartyMain import *
 
 
 class DinnerTableMainUnitTests(unittest.TestCase):
