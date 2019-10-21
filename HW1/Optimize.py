@@ -95,7 +95,7 @@ def Swap( person1, person2):
     person2.SetPosition(tempPerson1Position)
 
 
-def Optomize(persons, lowest, nextLowest):
+def Optimize(persons, lowest, nextLowest):
     """Algorithm to optomize the dinner table's seating arrangement score
 
     inputs:
@@ -116,7 +116,7 @@ def Optomize(persons, lowest, nextLowest):
     newScore = Calc(persons)
     # if the new score after swap is better, restart the algorithm am the base addresses
     if newScore > currentScore:
-        return Optomize(persons, 0, 1)
+        return Optimize(persons, 0, 1)
     # If the score after the swap is not better...
     else:
         # Unswap
@@ -131,6 +131,6 @@ def Optomize(persons, lowest, nextLowest):
             else:
                 lowest += 1
                 nextLowest = lowest + 1
-                return Optomize(persons, lowest, nextLowest)
+                return Optimize(persons, lowest, nextLowest)
         else:
-            return Optomize(persons, lowest, nextLowest + 1)
+            return Optimize(persons, lowest, nextLowest + 1)

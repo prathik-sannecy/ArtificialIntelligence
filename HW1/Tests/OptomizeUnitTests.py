@@ -1,6 +1,6 @@
 import unittest
 from Person import *
-from Optomize import *
+from Optimize import *
 from copy import copy, deepcopy
 
 
@@ -394,7 +394,7 @@ class TestOptomize(unittest.TestCase):
 
         dinnerTable = [person1, person2, person3, person4]
 
-        Optomize(dinnerTable, 0, 1)
+        Optimize(dinnerTable, 0, 1)
 
     def test_OptimizeThreeByTwo(self):
         person_number1 = 1
@@ -465,7 +465,7 @@ class TestOptomize(unittest.TestCase):
 
         dinnerTable = [person1, person2, person3, person4, person5, person6]
 
-        Optomize(dinnerTable, 0, 1)
+        Optimize(dinnerTable, 0, 1)
 
 if __name__ == '__main__':
     unittest.main()
