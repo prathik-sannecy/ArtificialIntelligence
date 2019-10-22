@@ -2,7 +2,7 @@ from CalculateScore import *
 from Error import *
 
 
-def Swap( person1, person2):
+def Swap(person1, person2):
     """Swaps 2 people's positions at the dinner table
 
     inputs:
