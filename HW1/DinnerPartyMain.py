@@ -24,7 +24,7 @@ def Main(input_file):
     # Get all the people at the dinner table
     persons = Parse(input_file)
     # Optimize the seating arrangements for the highest score
-    score, people = Optimize(persons, 0, 1)
+    score, people = Optimize(persons, 0, 1, float("-inf"))
     # Print the result in the desired format
     print(score)
     people.sort(key=lambda x: x.GetNumber())
