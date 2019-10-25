@@ -1,8 +1,6 @@
 from CalculateScore import *
 from Error import *
 
-swapCount = 0
-
 
 def Swap(person1, person2):
     """Swaps 2 people's positions at the dinner table
@@ -109,15 +107,11 @@ def Optimize(persons, lowest, nextLowest, currentScore):
             score is the maximum table score
             arrangement is the seating arrangement that provides the score (index=person, value=position)
     """
-    global swapCount
-    # calculate current table's score
-    print(currentScore)
     # Sort the people from lowest to highest score
     persons.sort(key=lambda x: x.GetScore(), reverse=True)
     # Swap the two people with the nth, mth lowest score
     Swap(persons[lowest], persons[nextLowest])
     newScore = Calc(persons)
-    print(newScore)
     # if the new score after swap is better, restart the algorithm am the base addresses
     if newScore > currentScore:
         return Optimize(persons, 0, 1, newScore)
