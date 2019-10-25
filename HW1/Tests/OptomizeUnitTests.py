@@ -394,7 +394,8 @@ class TestOptomize(unittest.TestCase):
 
         dinnerTable = [person1, person2, person3, person4]
 
-        Optimize(dinnerTable, 0, 1)
+        score, people = Optimize(dinnerTable, 0, 1, float("-inf"))
+        print(score)
 
     def test_OptimizeThreeByTwo(self):
         person_number1 = 1
@@ -465,7 +466,7 @@ class TestOptomize(unittest.TestCase):
 
         dinnerTable = [person1, person2, person3, person4, person5, person6]
 
-        Optimize(dinnerTable, 0, 1)
+        print(Optimize(dinnerTable, 0, 1, float("-inf")))
 
 if __name__ == '__main__':
     unittest.main()
