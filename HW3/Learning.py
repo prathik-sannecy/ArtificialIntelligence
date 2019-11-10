@@ -30,7 +30,7 @@ def Learn(trainingSet):
         # Keep a running count of number of instances with a particular feature (per classification)
         for featureIndex in range(numFeatures):
             if instanceFeatures[featureIndex] == 1:
-                featureCount[classificationIndex][featureIndex] += 1
+                featureCount[classification][featureIndex] += 1
     return instanceCount, featureCount
 
 def ComputeLikelyhoodOfClassification(instanceFeatures, featureCount, instanceCount, classification):
@@ -56,7 +56,7 @@ def ComputeLikelyhoodOfClassification(instanceFeatures, featureCount, instanceCo
         likelyHood += math.log(countOfFeature + .5) - math.log(instanceCount[classification] + .5)
     return likelyHood
 
-def classifyInstance(instanceFeatures, featureCount, instanceCount):
+def ClassifyInstance(instanceFeatures, featureCount, instanceCount):
     """Returns how a feature list should be classified based on likelyhood
 
     inputs:
