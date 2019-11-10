@@ -1,6 +1,6 @@
 from CalculateScore import *
 from Error import *
-
+import random
 
 def Swap(person1, person2):
     """Swaps 2 people's positions at the dinner table
@@ -95,7 +95,7 @@ def Swap(person1, person2):
     person2.SetPosition(tempPerson1Position)
 
 
-def Optimize(persons, lowest, nextLowest, currentScore):
+def Optimize(persons, lowest, nextLowest, currentScore, randCounter = 0):
     """Algorithm to optomize the dinner table's seating arrangement score
 
     inputs:
@@ -107,14 +107,27 @@ def Optimize(persons, lowest, nextLowest, currentScore):
             score is the maximum table score
             arrangement is the seating arrangement that provides the score (index=person, value=position)
     """
+    print(currentScore)
+    personsLen = len(persons)
     # Sort the people from lowest to highest score
     persons.sort(key=lambda x: x.GetScore(), reverse=True)
+    randCounter += 1
+    if randCounter % int(personsLen ** 2) == 0:
+        print("here")
+        personASwap = random.randint(0, personsLen - 1)
+        personBSwap = personASwap
+        while personBSwap == personASwap:
+            personBSwap = random.randint(0, personsLen - 1)
+        Swap(persons[personASwap], persons[personBSwap])
+        newScore = Calc(persons)
+        return Optimize(persons, 0, 1, newScore, randCounter)
+
     # Swap the two people with the nth, mth lowest score
     Swap(persons[lowest], persons[nextLowest])
     newScore = Calc(persons)
     # if the new score after swap is better, restart the algorithm am the base addresses
     if newScore > currentScore:
-        return Optimize(persons, 0, 1, newScore)
+        return Optimize(persons, 0, 1, newScore, randCounter)
     # If the score after the swap is not better...
     else:
         # Unswap
@@ -129,6 +142,6 @@ def Optimize(persons, lowest, nextLowest, currentScore):
             else:
                 lowest += 1
                 nextLowest = lowest + 1
-                return Optimize(persons, lowest, nextLowest, currentScore)
+                return Optimize(persons, lowest, nextLowest, currentScore, randCounter)
         else:
-            return Optimize(persons, lowest, nextLowest + 1, currentScore)
+            return Optimize(persons, lowest, nextLowest + 1, currentScore, randCounter)
