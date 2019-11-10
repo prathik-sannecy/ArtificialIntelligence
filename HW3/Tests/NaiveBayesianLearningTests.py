@@ -42,9 +42,13 @@ class NaiveBayesianLearningTests(unittest.TestCase):
         assert (likelyHood1 < likelyHood0)
 
     def test_ClassifyInstance(self):
-        likelyHood0 = .432432
-        likelyHood1 = .4324321
-        assert (likelyHood1 > likelyHood0)
+        trainingSet = []
+        trainingSet.append([0, 0, 1, 1])
+        trainingSet.append([1, 1, 1, 1])
+        instanceCount, featureCount = Learn(trainingSet)
+        instanceFeatures = [1, 1, 1]
+        classification = ClassifyInstance(instanceFeatures, featureCount, instanceCount)
+        assert (classification == 1)
 
 if __name__ == '__main__':
     unittest.main()
