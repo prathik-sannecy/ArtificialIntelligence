@@ -4,13 +4,13 @@ def Learn(trainingSet):
     """Naive Bayesian learning algorithm
 
     inputs:
-        (List)trainingSet: Training set in the following format:
-        Instance0 classification, Instance0 feature0, Instance0 feature1...Instance0 featureN
-        Instance1 classification, Instance0 feature1, Instance1 feature1...Instance1 featureN
+        (List[(int)])trainingSet: Training set in the following format:
+            Instance0 classification, Instance0 feature0, Instance0 feature1...Instance0 featureN
+            Instance1 classification, Instance0 feature1, Instance1 feature1...Instance1 featureN
         ...
 
     returns:
-        (tuple)(instanceCount, featureCount): (count of instances with a classification,
+        (tuple)((int)instanceCount, (int)featureCount): (count of instances with a classification,
             count of instances with a particular feature within a classification)
     """
     classificationIndex = 0
@@ -37,9 +37,9 @@ def ComputeLikelyhoodOfClassification(instanceFeatures, featureCount, instanceCo
     """Returns the likelyhood that a particular feature list is of a certain classification based on Naive Bayesian learning algorithm
 
     inputs:
-        (list)instanceFeatures: a feature list to be classified
-        (list)featureCount: how many total(all instances) features are in each classification are in the training set
-        (list)instanceCount: how many instances are in each classification are in the training set
+        (list[(int)])instanceFeatures: a feature list to be classified
+        (list[(int)])featureCount: how many total(all instances) features are in each classification are in the training set
+        (list[(int)])instanceCount: how many instances are in each classification are in the training set
         (int)classification: whether the feature list should be classified as '0' or '1'
 
     returns:
@@ -60,9 +60,9 @@ def ClassifyInstance(instanceFeatures, featureCount, instanceCount):
     """Returns how a feature list should be classified based on likelyhood
 
     inputs:
-        (list)instanceFeatures: a feature list to be classified
-        (list)featureCount: how many total(all instances) features are in each classification are in the training set
-        (list)instanceCount: how many instances are in each classification are in the training set
+        (list[(int)])instanceFeatures: a feature list to be classified
+        (list[(int)])featureCount: how many total(all instances) features are in each classification are in the training set
+        (list[(int)])instanceCount: how many instances are in each classification are in the training set
 
     returns:
         (int)classification: whether the feature list should be classified as '0' or '1'

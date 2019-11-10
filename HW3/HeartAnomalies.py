@@ -1,6 +1,14 @@
 from  HW3.Learning import *
 
 def ParseCSV(csvFileName):
+    """Parse a CSV file of integers
+
+    Inputs:
+        (String)csvFileName: Name of CSV file to parse
+
+    return:
+        (list[list(int)]] parsedCSV: the CSV file parsed, containing only ints
+    """
     parsedCSV = []
 
     with open(csvFileName) as csvFile:
@@ -8,10 +16,9 @@ def ParseCSV(csvFileName):
             parsedCSV.append(list(map(int, line.strip().split(','))))
     return parsedCSV
 
-
-
 def main():
-
+    """TODO
+    """
     trainingSet = ParseCSV('HW3_Files/spect-resplit-itg.train.csv')
     instanceCount, featureCount = Learn(trainingSet)
     print(instanceCount, featureCount)
