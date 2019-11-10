@@ -26,6 +26,11 @@ def main():
         classifyTestInstance = ClassifyInstance(testInstanceFeatures, featureCount, instanceCount)
         calculated.append(classifyTestInstance)
     print(calculated)
+    correct = 0
+    for i in range(len(calculated)):
+        if actual[i] == calculated[i]:
+            correct += 1
+    print(float(correct)/float(len(actual)))
 
 if __name__ == "__main__":
     main()

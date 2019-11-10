@@ -46,14 +46,14 @@ def ComputeLikelyhoodOfClassification(instanceFeatures, featureCount, instanceCo
         (float)likelyHood: how likely the feature list fits the classification, based on the training set
     """
     # default is that likelyhood is dependant on how many instances we've already seen
-    likelyHood = math.log(instanceCount[classification] + .5) - math.log(instanceCount[0] + instanceCount[1] + .5)
+    likelyHood = math.log(float(instanceCount[classification]) + float(.5)) - math.log(float(instanceCount[0]) + float(instanceCount[1]) + float(.5))
     numFeatures = len(instanceFeatures)
     # Adjust the likelyhood based on how many features of the classification it matches
     for featureIndex in range(numFeatures):
         countOfFeature = featureCount[classification][featureIndex]
         if instanceFeatures[featureIndex] == 0:
-            countOfFeature = instanceCount[classification]
-        likelyHood += math.log(countOfFeature + .5) - math.log(instanceCount[classification] + .5)
+            countOfFeature = instanceCount[classification] - countOfFeature
+        likelyHood += math.log(float(countOfFeature) + float(.5)) - math.log(float(instanceCount[classification]) + float(.5))
     return likelyHood
 
 def ClassifyInstance(instanceFeatures, featureCount, instanceCount):
