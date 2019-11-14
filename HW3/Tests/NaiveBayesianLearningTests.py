@@ -1,5 +1,5 @@
 import unittest
-from HW3.Learning import *
+from HW3.NaiveBayesianLearning import *
 
 
 class NaiveBayesianLearningTests(unittest.TestCase):

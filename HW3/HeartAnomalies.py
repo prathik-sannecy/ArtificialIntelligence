@@ -1,4 +1,4 @@
-from  HW3.Learning import *
+from  HW3.NaiveBayesianLearning import *
 
 def ParseCSV(csvFileName):
     """Parse a CSV file of integers
@@ -19,10 +19,10 @@ def ParseCSV(csvFileName):
 def main():
     """TODO
     """
-    trainingSet = ParseCSV('HW3_Files/spect-resplit-itg.train.csv')
+    trainingSet = ParseCSV('HW3_Files/spect-itg.train.csv')
     instanceCount, featureCount = Learn(trainingSet)
     print(instanceCount, featureCount)
-    testingSet = ParseCSV('HW3_Files/spect-resplit-itg.test.csv')
+    testingSet = ParseCSV('HW3_Files/spect-itg.test.csv')
     actual = [testingSet[x][0] for x in range(len(testingSet))]
     print(actual)
 
@@ -38,6 +38,7 @@ def main():
         if actual[i] == calculated[i]:
             correct += 1
     print(float(correct)/float(len(actual)))
+
 
 if __name__ == "__main__":
     main()
