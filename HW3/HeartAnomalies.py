@@ -35,25 +35,60 @@ def RunKNearestNeighbor(trainingSet, testingSet):
     calculated = []
     for testInstance in testingSet:
         testInstanceFeatures = testInstance[1:]
-        classifyTestInstance = ClassifyKNearestNeighbor(trainingSet,testInstanceFeatures, 7)
+        classifyTestInstance = ClassifyKNearestNeighbor(trainingSet,testInstanceFeatures, 3)
         calculated.append(classifyTestInstance)
     return calculated
+
+def GetLearningFunctionAccuracy(trainingSetName, testingSetName, learningFunction):
+    trainingSet = ParseCSV(trainingSetName)
+    testingSet = ParseCSV(testingSetName)
+
+    actual = [testingSet[x][0] for x in range(len(testingSet))]
+    lenActual = len(actual)
+
+    calculated = learningFunction(trainingSet, testingSet)
+    correctZeroCount = 0
+    correctOneCount = 0
+    actualZeroCount = 0
+    actualOneCount = 0
+    for i in range(len(actual)):
+        if actual[i] == 1:
+            actualOneCount += 1
+            if actual[i] == calculated[i]:
+                correctOneCount += 1
+        else:
+            actualZeroCount += 1
+            if actual[i] == calculated[i]:
+                correctZeroCount += 1
+
+    totalCorrect = correctZeroCount + correctOneCount
+    accuracy = float(totalCorrect) / float(lenActual)
+    abnormalCorrect = float(correctZeroCount) / float(actualZeroCount)
+    normalCorrect = float(correctOneCount) / float(actualOneCount)
+
+    print(str(totalCorrect) + "/" + str(lenActual) + "(" + str(accuracy) + ") " + str(correctZeroCount) + "/" + str(actualZeroCount) + "(" + str(abnormalCorrect) + ") " + str(correctOneCount) + "/" + str(actualOneCount) + "(" + str(normalCorrect) + ") ")
 
 
 
 def main():
-    trainingSet = ParseCSV('HW3_Files/spect-itg.train.csv')
 
-    testingSet = ParseCSV('HW3_Files/spect-itg.test.csv')
-    actual = [testingSet[x][0] for x in range(len(testingSet))]
+    datasets = (('HW3_Files/spect-itg.train.csv', 'HW3_Files/spect-itg.test.csv'),('HW3_Files/spect-orig.train.csv', 'HW3_Files/spect-orig.test.csv'), ('HW3_Files/spect-resplit.train.csv', 'HW3_Files/spect-resplit.test.csv'), ('HW3_Files/spect-resplit-itg.train.csv', 'HW3_Files/spect-resplit-itg.test.csv'))
 
-    calculated = RunKNearestNeighbor(trainingSet, testingSet)
-    correct = 0
-    for i in range(len(calculated)):
-        if actual[i] == calculated[i]:
-            correct += 1
-    print(float(correct) / float(len(actual)))
+    print("Naive Bayesian Algorithm")
+    for set in datasets:
+        trainingSetName = set[0]
+        testingSetName = set[1]
+        print(trainingSetName.split("/")[1].split(".")[0], end=" ")
+        GetLearningFunctionAccuracy(trainingSetName, testingSetName, RunNaiveBayesianLearning)
 
+    print("\n")
+
+    print("K-Nearest-Neighbor Algorithm")
+    for set in datasets:
+        trainingSetName = set[0]
+        testingSetName = set[1]
+        print(trainingSetName.split("/")[1].split(".")[0], end=" ")
+        GetLearningFunctionAccuracy(trainingSetName, testingSetName, RunKNearestNeighbor)
 
 if __name__ == "__main__":
     main()
