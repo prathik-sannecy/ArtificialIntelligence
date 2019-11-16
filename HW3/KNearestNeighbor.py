@@ -19,12 +19,15 @@ def ClassifyKNearestNeighbor(trainingSet, newInstanceFeatures, k):
     for instance in trainingSet:
         classification = instance[classificationIndex]
         instanceFeatures = instance[featureStartIndex:]  # Filter out classification
+        # the total difference between a neighbor and the feature set is the sum of all the differences per feature
         difference.append((sum([abs(instanceFeatures[k] - newInstanceFeatures[k]) for k in range(len(newInstanceFeatures))]), classification))
+    # Pick the k nearest neighbors with the most matching features
     kdifference = sorted(difference)[:k]
+    # Return the classification that the majority of features have
     zeroCount = 0
     for diff in kdifference:
         if diff[1] == 0:
             zeroCount += 1
-    if zeroCount > k/2:
+    if zeroCount > float(k)/2:
         return 0
     return 1
