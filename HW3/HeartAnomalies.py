@@ -1,5 +1,6 @@
 from  HW3.NaiveBayesianLearning import *
 from  HW3.KNearestNeighbor import *
+from random import shuffle
 
 def ParseCSV(csvFileName):
     """Parse a CSV file of integers
@@ -18,8 +19,15 @@ def ParseCSV(csvFileName):
     return parsedCSV
 
 def RunNaiveBayesianLearning(trainingSet, testingSet):
-    """TODO
-        """
+    """Runs the Naive Bayesian Learning/classification on the training set, and tests it with the testing set
+
+    inputs:
+        (List[(int)])trainingSet: the Naive Bayesian Learning training set
+        (List[(int)])testingSet: set to test the trained Naive Bayesian data structure
+
+    returns:
+        (List[(int)])calculated: the calculated classification of each testing instance in the testing set
+    """
     instanceCount, featureCount = Learn(trainingSet)
 
     calculated = []
@@ -30,18 +38,26 @@ def RunNaiveBayesianLearning(trainingSet, testingSet):
     return  calculated
 
 def RunKNearestNeighbor(trainingSet, testingSet):
-    """TODO
-        """
+    """Runs the KNN Learning/classification on the training set, and tests it with the testing set
+
+    inputs:
+        (List[(int)])trainingSet: the KNN training set
+        (List[(int)])testingSet: set to test the trained Naive Bayesian data structure
+
+    returns:
+        (List[(int)])calculated: the calculated classification of each testing instance in the testing set
+    """
     calculated = []
     for testInstance in testingSet:
         testInstanceFeatures = testInstance[1:]
-        classifyTestInstance = ClassifyKNearestNeighbor(trainingSet,testInstanceFeatures, 3)
+        classifyTestInstance = ClassifyKNearestNeighbor(trainingSet,testInstanceFeatures, 5)
         calculated.append(classifyTestInstance)
     return calculated
 
 def GetLearningFunctionAccuracy(trainingSetName, testingSetName, learningFunction):
     trainingSet = ParseCSV(trainingSetName)
     testingSet = ParseCSV(testingSetName)
+    shuffle(trainingSet)
 
     actual = [testingSet[x][0] for x in range(len(testingSet))]
     lenActual = len(actual)
