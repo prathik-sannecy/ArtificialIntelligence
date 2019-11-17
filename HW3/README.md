@@ -41,7 +41,7 @@ spect-resplit-itg 64/90(0.7111111111111111) 18/19(0.9473684210526315) 46/71(0.64
 
 
 To run this program:
-python3 HeartAnomolies.py
+python3 HeartAnomalies.py 
 
 By default each algorithm is run on each of the 4 different training/testing set pairs.
 
