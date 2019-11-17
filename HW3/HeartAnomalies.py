@@ -1,5 +1,5 @@
-from  HW3.NaiveBayesianLearning import *
-from  HW3.KNearestNeighbor import *
+from  NaiveBayesianLearning import *
+from  KNearestNeighbor import *
 from random import shuffle
 
 def ParseCSV(csvFileName):
