@@ -1,6 +1,6 @@
 # AI and Gothello
 PSU CS 441/541 Final Project  
-Due by*5:00PM* Tuesday, 10 December  
+Due by *5:00PM* Tuesday, 10 December  
 *Not accepted* late
 
 The Official Final Project for this course is to take an AI
