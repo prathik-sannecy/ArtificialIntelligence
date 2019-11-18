@@ -26,11 +26,11 @@ The following resources are provided:
   rules.
 
 * Gothello game server
-  [Java client](http://github.com/pdx-cs-ai/gothello-client-java)
+  [Java client](http://github.com/pdx-cs-ai/gothello-libclient-java)
   library.
 
 * Gothello game server
-  [C/C++ client](http://github.com/pdx-cs-ai/gothello-client-c)
+  [C/C++ client](http://github.com/pdx-cs-ai/gothello-libclient-c)
   library.
 
 * [Grossthello](http://github.com/pdx-cs-ai/gothello-grossthello),
