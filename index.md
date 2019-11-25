@@ -14,27 +14,9 @@ give some insight into more complicated games. (Building a
 Go player is definitely not in scope for an introductory AI
 course.)
 
-The following resources are provided:
-
-* Gothello [informal rules](game/gothello.md)
-
-* Official Gothello
-  [Game Server](http://github.com/pdx-cs-ai/gothello-gthd)
-
-* Formal [Specification](spec/gothello-server.pdf) of the
-  server, including a formal specification of the game
-  rules.
-
-* Gothello game server
-  [Java client](http://github.com/pdx-cs-ai/gothello-libclient-java)
-  library.
-
-* Gothello game server
-  [C/C++ client](http://github.com/pdx-cs-ai/gothello-libclient-c)
-  library.
-
-* [Grossthello](http://github.com/pdx-cs-ai/gothello-grossthello),
-  a really simple Gothello player.
+Please see the Gothello Project
+[README](http://github.com/pdx-cs-ai/gothello-project/blob/master/README.md)
+for further information.
 
 ## Challenges
 
