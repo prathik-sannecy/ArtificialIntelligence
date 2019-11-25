@@ -40,12 +40,14 @@ The following resources are provided:
 
 ## How To Try It Out
 
-First, check out the source repos for Gthd and Grossthello
-and follow the instructions there to build the client. Then
-open three terminals. On the first terminal go to the Gthd
-directory and type `java Gthd 0`. On the second and third
-terminals go to the Grossthello directory. On the second
-terminal, type
+Check out the source repos for Gthd and Grossthello
+and follow the instructions there to build the server and
+client. 
+
+Now open three terminals. On the first terminal go to the
+Gthd directory and type `java Gthd 0`. On the second and
+third terminals go to the Grossthello directory. On the
+second terminal, type
 
         java Grossthello white localhost 0 3
 
