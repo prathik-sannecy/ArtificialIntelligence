@@ -31,17 +31,35 @@ class TestState:
 
 
 class TestMinMax(unittest.TestCase):
-    def test_MinValue(self):
+    # StatesTree looks like the following:
+    #          2
+    #        /   \
+    #       6      2
+    #      / \    / \
+    #     3   4  1   7
+
+    def InitializeTestState(self):
         StateTree = BinaryTreeNode(2)
         StateTree.left = BinaryTreeNode(6)
         StateTree.right = BinaryTreeNode(2)
         StateTree.left.left = BinaryTreeNode(3)
-        StateTree.left.right = BinaryTreeNode(4)
+        StateTree.left.right = BinaryTreeNode(7)
         StateTree.right.left = BinaryTreeNode(1)
-        StateTree.right.right = BinaryTreeNode(7)
+        StateTree.right.right = BinaryTreeNode(4)
+        return TestState(StateTree)
 
-        testState = TestState(StateTree)
+
+    def test_MinValue(self):
+        testState = self.InitializeTestState()
         assert(MinValue(testState) == 4)
+
+    def test_MaxValue(self):
+        testState = self.InitializeTestState()
+        assert(MaxValue(testState) == 3)
+
+    def test_MiniMaxDecision(self):
+        testState = self.InitializeTestState()
+        assert(MiniMaxDecision(testState).val == 6)
 
 
 

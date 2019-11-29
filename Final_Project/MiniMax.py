@@ -1,8 +1,8 @@
 def MiniMaxDecision(state):
     maxAction = None
     maxMinValue = float("-inf")
-    for action in state.actions:
-        actionMaxMinValue = MinValue(action)
+    for action in state.GetActions():
+        actionMaxMinValue = MinValue(state.Result(action))
         if actionMaxMinValue > maxMinValue:
             maxMinValue = actionMaxMinValue
             maxAction = action
