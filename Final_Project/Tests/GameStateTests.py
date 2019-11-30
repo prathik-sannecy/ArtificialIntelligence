@@ -113,26 +113,26 @@ class TestGameState(unittest.TestCase):
 
         gameState.board = self.InitilizeGameStateBoard()
         gameState.stoneGroups = self.InitializeGameStateStoneGroups()
-        gameState.turn = 'W'
+        gameState.turn = 'B'
 
-        newGameState = gameState.Result((1, 4))
+        newGameState = gameState.Result((2, 3))
         expectedBoardAfterMove = [
             ['B', None, 'W', 'B', 'W'],
-            ['W', 'W', 'B', None, 'W'],
-            [None, None, None, None, None],
+            ['W', 'W', 'B', None, None],
+            [None, None, None, 'B', None],
             ['W', 'W', 'W', 'W', 'B'],
             ['B', 'W', 'B', 'B', 'B']
         ]
 
-        expectedGroupAfterMove = {(1, 4)}
+        expectedGroupAfterMove = {(2, 3)}
         for rowIndex, row in enumerate(newGameState.board):
             for colIndex, stone in enumerate(row):
                 assert(stone == expectedBoardAfterMove[rowIndex][colIndex])
 
-        for stone in newGameState.stoneGroups[(1, 4)]:
+        for stone in newGameState.stoneGroups[(2, 3)]:
             assert((stone in expectedGroupAfterMove) == True)
         for stone in expectedGroupAfterMove:
-            assert((stone in newGameState.stoneGroups[(1, 4)]) == True)
+            assert((stone in newGameState.stoneGroups[(2, 3)]) == True)
 
     def test_SwapOne(self):
         gameState = GameState()
