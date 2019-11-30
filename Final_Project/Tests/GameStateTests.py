@@ -19,6 +19,10 @@ class TestGameState(unittest.TestCase):
         for rowIndex, row in enumerate(board):
             for colIndex, stone in enumerate(row):
                 assert(stone == boardCopy[rowIndex][colIndex])
+        boardCopy[2][0] = 'W'
+        assert(board[2][0] == None)
+        assert(boardCopy[2][0] is not None)
+
 
     def test_GameStateCopyStoneGroups(self):
         gameState = GameState()
@@ -26,6 +30,9 @@ class TestGameState(unittest.TestCase):
         stoneGroupsCopy = gameState.CopyStoneGroups(stoneGroups)
         for stone in stoneGroups:
             assert(stoneGroups[stone] == stoneGroupsCopy[stone])
+        stoneGroupsCopy[(2, 0)] = {(2, 0)}
+        assert(((2, 0) not in stoneGroups) == True)
+        assert(((2, 0) in stoneGroupsCopy) == True)
 
     def test_GameStateIsLegal(self):
         gameState = GameState()
@@ -76,6 +83,118 @@ class TestGameState(unittest.TestCase):
             assert((stone in stoneGroups[2, 0]) == True)
         for stone in stoneGroups[(2, 0)]:
             assert((stone in stoneGroups[3, 0]) == True)
+
+    def test_GetActions(self):
+        gameState = GameState()
+
+        gameState.board = self.InitilizeGameStateBoard()
+        gameState.stoneGroups = self.InitializeGameStateStoneGroups()
+        actions = gameState.GetActions()
+
+        expected = {(1, 3), (1, 4), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4)}
+        assert(((0, 1) in actions) == False)
+        assert(((1, 3) in actions) == True)
+
+        for e in expected:
+            assert((e in actions) == True)
+        for k in actions:
+            assert ((k in expected) == True)
+
+    def test_UpdateStoneCount(self):
+        gameState = GameState()
+
+        gameState.board = self.InitilizeGameStateBoard()
+        gameState.stoneGroups = self.InitializeGameStateStoneGroups()
+        gameState.UpdateStoneCount()
+        assert(gameState.Utility() == (8-9))
+
+    def test_ResultNoSwapping(self):
+        gameState = GameState()
+
+        gameState.board = self.InitilizeGameStateBoard()
+        gameState.stoneGroups = self.InitializeGameStateStoneGroups()
+        gameState.turn = 'W'
+
+        newGameState = gameState.Result((1, 4))
+        expectedBoardAfterMove = [
+            ['B', None, 'W', 'B', 'W'],
+            ['W', 'W', 'B', None, 'W'],
+            [None, None, None, None, None],
+            ['W', 'W', 'W', 'W', 'B'],
+            ['B', 'W', 'B', 'B', 'B']
+        ]
+
+        expectedGroupAfterMove = {(1, 4)}
+        for rowIndex, row in enumerate(newGameState.board):
+            for colIndex, stone in enumerate(row):
+                assert(stone == expectedBoardAfterMove[rowIndex][colIndex])
+
+        for stone in newGameState.stoneGroups[(1, 4)]:
+            assert((stone in expectedGroupAfterMove) == True)
+        for stone in expectedGroupAfterMove:
+            assert((stone in newGameState.stoneGroups[(1, 4)]) == True)
+
+    def test_SwapOne(self):
+        gameState = GameState()
+
+        gameState.board = self.InitilizeGameStateBoard()
+        gameState.stoneGroups = self.InitializeGameStateStoneGroups()
+        gameState.turn = 'W'
+
+        newGameState = gameState.Result((0, 1))
+        expectedBoardAfterMove = [
+            ['W', 'W', 'W', 'B', 'W'],
+            ['W', 'W', 'B', None, None],
+            [None, None, None, None, None],
+            ['W', 'W', 'W', 'W', 'B'],
+            ['B', 'W', 'B', 'B', 'B']
+        ]
+
+        expectedGroupAfterMove = {(0, 0), (0, 1), (0, 2), (1, 0), (1, 1)}
+
+        for rowIndex, row in enumerate(newGameState.board):
+            for colIndex, stone in enumerate(row):
+                assert(stone == expectedBoardAfterMove[rowIndex][colIndex])
+
+        for stone in newGameState.stoneGroups[(0, 0)]:
+            assert((stone in expectedGroupAfterMove) == True)
+        for stone in expectedGroupAfterMove:
+            assert((stone in newGameState.stoneGroups[(0, 0)]) == True)
+
+
+    def test_SwapMany(self):
+        gameState = GameState()
+
+        gameState.board = self.InitilizeGameStateBoard()
+        gameState.stoneGroups = self.InitializeGameStateStoneGroups()
+        gameState.turn = 'W'
+
+        newGameState = gameState.Result((2, 4))
+        expectedBoardAfterMove = [
+            ['B', None, 'W', 'B', 'W'],
+            ['W', 'W', 'B', None, None],
+            [None, None, None, None, 'W'],
+            ['W', 'W', 'W', 'W', 'W'],
+            ['B', 'W', 'W', 'W', 'W']
+        ]
+
+        expectedGroupAfterMove = {(2, 4), (3, 0), (3, 1), (3, 2), (3, 3), (3, 4), (4, 1), (4, 2), (4, 3), (4, 4)}
+
+        for rowIndex, row in enumerate(newGameState.board):
+            for colIndex, stone in enumerate(row):
+                assert(stone == expectedBoardAfterMove[rowIndex][colIndex])
+
+        for stone in newGameState.stoneGroups[(4, 1)]:
+            assert((stone in expectedGroupAfterMove) == True)
+        for stone in expectedGroupAfterMove:
+            assert((stone in newGameState.stoneGroups[(4, 1)]) == True)
+
+        for stone in newGameState.stoneGroups[(2, 4)]:
+            assert((stone in expectedGroupAfterMove) == True)
+        for stone in expectedGroupAfterMove:
+            assert((stone in newGameState.stoneGroups[(2, 4)]) == True)
+
+
 
 
     def InitilizeGameStateBoard(self):
