@@ -23,10 +23,10 @@ class GameState:
         for rowIndex, row in enumerate(localBoard):
             for colIndex, dot in enumerate(row):
                 if dot == None:
-                    if self.IsLegal(self.stoneGroups, self.board, self.turn, (rowIndex, colIndex)):
+                    if self.IsLegal(self.stoneGroups, self.board, (rowIndex, colIndex)):
                         localBoard[rowIndex][colIndex] = self.turn
                         actions.append((rowIndex, colIndex))
-                        localBoard = self.board
+                        localBoard = self.CopyBoard(self.board)
         return actions
 
     def Result(self, action):
@@ -90,11 +90,11 @@ class GameState:
         self.MergeNeighboringStones(action, localStoneGroup, localBoard)
 
 
+        edge = False
         for stone in localStoneGroup[action]:  # Check all pieces in a group
             stoneX = stone[0]
             stoneY = stone[1]
 
-            edge = False
             for x in range(stoneX - 1, stoneX + 2):
                 for y in range(stoneY - 1, stoneY + 2):
                     if (abs(x - stoneX) + abs(y - stoneY)) is not 1:
@@ -104,9 +104,9 @@ class GameState:
                         continue
                     if localBoard[x][y] is None:
                         return True
-            if edge:
-                return False
-            return True
+        if edge:
+            return False
+        return True
 
 
     def MergeGroups(self, stoneGroup, val1, val2):
