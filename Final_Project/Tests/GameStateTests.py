@@ -29,6 +29,14 @@ class TestGameState(unittest.TestCase):
         for stone in stoneGroups:
             assert(stoneGroups[stone] == stoneGroupsCopy[stone])
 
+    def test_GameStateIsLegal(self):
+        gameState = GameState()
+        stoneGroups = self.InitializeGameStateStoneGroups()
+        board = self.InitilizeGameStateBoard()
+
+        assert(gameState.IsLegal(stoneGroups, board, (0, 1)) == False)
+        assert(gameState.IsLegal(stoneGroups, board, (1, 3)) == True)
+
 
 
 
