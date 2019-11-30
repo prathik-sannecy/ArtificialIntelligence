@@ -73,11 +73,6 @@ class GameState:
                             oppStoneY = oppStone[1]
                             checkedOpposite[oppStoneX][oppStoneY] = 1
 
-
-
-
-
-
         return self
 
     def IsLegal(self, stoneGroup, board, action):
@@ -135,7 +130,7 @@ class GameState:
                     continue
                 if board[x][y] == None:
                     continue
-                if board[x][y] == self.turn:
+                if board[x][y] == board[actionX][actionY]:
                     self.MergeSetsInDict(stoneGroup, (x, y), (actionX, actionY))
 
     def CopyBoard(self, board):
