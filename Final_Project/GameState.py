@@ -38,9 +38,9 @@ class GameState:
         localStoneGroup[action] = set()
         localStoneGroup[action].add(action)
 
-        self.MergeNeighborHashes(action, localStoneGroup, localBoard)
+        self.MergeNeighboringStones(action, localStoneGroup, localBoard)
         # Do it twice, to make sure all neighbors are updated
-        self.MergeNeighborHashes(action, localStoneGroup, localBoard)
+        self.MergeNeighboringStones(action, localStoneGroup, localBoard)
 
 
         # Check to see if surrounding any white groups
@@ -59,7 +59,7 @@ class GameState:
             stoneY = stone[1]
             for x in range(stoneX - 1, stoneX + 2):
                 for y in range(stoneY - 1, stoneY + 2):
-                    if x == stoneX and y == stoneY:
+                    if (abs(x - stoneX) + abs(y - stoneY)) is not 1:
                         continue
                     elif x < 0 or x > 4 or y < 0 or y > 4:
                         continue
@@ -80,28 +80,34 @@ class GameState:
 
         return self
 
-    def IsLegal(self, stoneGroup, board, turn, action):
-        localBoard = self.CopyBoard(self.board)
-        localStoneGroup = self.CopyStoneGroups(self.stoneGroups)
+    def IsLegal(self, stoneGroup, board, action):
+        localBoard = self.CopyBoard(board)
+        localStoneGroup = self.CopyStoneGroups(stoneGroup)
 
-        self.MergeNeighborHashes(action, localStoneGroup, localBoard)
+        actionX = action[0]
+        actionY = action[1]
+
+        localStoneGroup[action] = {action}
+        localBoard[actionX][actionY] = self.turn
+
+        self.MergeNeighboringStones(action, localStoneGroup, localBoard)
         # Do it twice, to make sure all neighbors are updated
-        self.MergeNeighborHashes(action, localStoneGroup, localBoard)
+        self.MergeNeighboringStones(action, localStoneGroup, localBoard)
 
 
-        for stone in stoneGroup[action]:  # Check all pieces in a group
+        for stone in localStoneGroup[action]:  # Check all pieces in a group
             stoneX = stone[0]
             stoneY = stone[1]
 
             edge = False
             for x in range(stoneX - 1, stoneX + 2):
                 for y in range(stoneY - 1, stoneY + 2):
-                    if x == stoneX and y == stoneY:
+                    if (abs(x - stoneX) + abs(y - stoneY)) is not 1:
                         continue
                     if x < 0 or x > 4 or y < 0 or y > 4:
                         edge = True
                         continue
-                    if board[x][y] is None:
+                    if localBoard[x][y] is None:
                         return True
             if edge:
                 return False
@@ -118,14 +124,16 @@ class GameState:
         dictionary[val1] = dictionary[val1] | dictionary[val2]
         dictionary[val2] = dictionary[val1] | dictionary[val2]
 
-    def MergeNeighborHashes(self, action, stoneGroup, board):
+    def MergeNeighboringStones(self, action, stoneGroup, board):
         actionX = action[0]
         actionY = action[1]
         for x in range(actionX - 1, actionX + 2):
             for y in range(actionY - 1, actionY + 2):
-                if x == actionX and y == actionY:
+                if (abs(x - actionX) + abs(y - actionY)) is not 1:
                     continue
                 if x < 0 or x > 4 or y < 0 or y > 4:
+                    continue
+                if board[x][y] == None:
                     continue
                 if board[x][y] == self.turn:
                     self.MergeSetsInDict(stoneGroup, (x, y), (actionX, actionY))
