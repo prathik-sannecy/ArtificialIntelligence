@@ -12,8 +12,6 @@ class TestGameState(unittest.TestCase):
     # WWWWB
     # BWBBB
 
-
-
     def test_GameStateCopyBoard(self):
         gameState = GameState()
         board = self.InitilizeGameStateBoard()
@@ -37,7 +35,47 @@ class TestGameState(unittest.TestCase):
         assert(gameState.IsLegal(stoneGroups, board, (0, 1)) == False)
         assert(gameState.IsLegal(stoneGroups, board, (1, 3)) == True)
 
+    def test_MergeSetsInDict(self):
+        gameState = GameState()
+        stoneGroups = self.InitializeGameStateStoneGroups()
+        testDict = {}
+        testDict[(0, 0)] = {(0, 0)}
+        testDict[(1, 1)] = {(1, 1)}
 
+        gameState.MergeSetsInDict(testDict, (0, 0), (1, 1))
+
+        assert(((0, 0) in testDict[(0, 0)]) == True)
+        assert(((1, 1) in testDict[(0, 0)]) == True)
+        assert(((0, 0) in testDict[(1, 1)]) == True)
+        assert(((1, 1) in testDict[(1, 1)]) == True)
+
+    def test_MergeGroups(self):
+        gameState = GameState()
+        stoneGroups = self.InitializeGameStateStoneGroups()
+
+        gameState.MergeGroups(stoneGroups, (3, 0), (3, 4))
+
+        assert(((3, 1) in stoneGroups[(4, 2)]) == True)
+        for stone in stoneGroups[(3, 0)]:
+            assert((stone in stoneGroups[3, 4]) == True)
+        for stone in stoneGroups[(3, 4)]:
+            assert((stone in stoneGroups[3, 0]) == True)
+
+    def test_MergeNeighboringStones(self):
+        gameState = GameState()
+        stoneGroups = self.InitializeGameStateStoneGroups()
+        board = self.InitilizeGameStateBoard()
+        board[2][0] = 'W'
+        stoneGroups[(2, 0)] = {(2, 0)}
+
+        gameState.MergeNeighboringStones((2, 0), stoneGroups, board)
+        gameState.MergeNeighboringStones((2, 0), stoneGroups, board)
+
+        assert(((2, 0) in stoneGroups[(3, 0)]) == True)
+        for stone in stoneGroups[(3, 0)]:
+            assert((stone in stoneGroups[2, 0]) == True)
+        for stone in stoneGroups[(2, 0)]:
+            assert((stone in stoneGroups[3, 0]) == True)
 
 
     def InitilizeGameStateBoard(self):
