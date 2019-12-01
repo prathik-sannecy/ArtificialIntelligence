@@ -91,7 +91,7 @@ class TestGameState(unittest.TestCase):
         gameState.stoneGroups = self.InitializeGameStateStoneGroups()
         actions = gameState.GetActions()
 
-        expected = {(1, 3), (1, 4), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4)}
+        expected = {(1, 3), (1, 4), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), "Pass"}
         assert(((0, 1) in actions) == False)
         assert(((1, 3) in actions) == True)
 
@@ -105,8 +105,9 @@ class TestGameState(unittest.TestCase):
 
         gameState.board = self.InitilizeGameStateBoard()
         gameState.stoneGroups = self.InitializeGameStateStoneGroups()
-        gameState.UpdateStoneCount()
+        gameState.UpdateGameStateVariables()
         assert(gameState.Utility() == (8-9))
+        assert(gameState.turn == 'W')
 
     def test_ResultNoSwapping(self):
         gameState = GameState()

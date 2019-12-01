@@ -48,71 +48,92 @@ class GameState:
                 if dot == None:
                     if self.IsLegal(self.stoneGroups, self.board, (rowIndex, colIndex)):
                         actions.append((rowIndex, colIndex))
+        actions.append("Pass")  # Player always has the option to pass
         return actions
 
     def Result(self, action):
-        localBoard = self.CopyBoard(self.board)
-        actionX = action[0]
-        actionY = action[1]
+        """Updates the game state after a player makes a move
 
-        localStoneGroup = self.CopyStoneGroups(self.stoneGroups)
-        localStoneGroup[action] = set()
-        localStoneGroup[action].add(action)
-        localBoard[actionX][actionY] = self.turn
+        inputs:
+            (tuple((int), (int)))action: where to add the new stone
+        returns:
+            (GameState)gameState: new state of the game after current move
+        """
+        # If the player decides to pass, then increment the passCount and let it be the other player's turn
+        if action == 'Pass':
+            self.passCount += 1
+            self.UpdateGameStateVariables()
+            return self
 
-        self.MergeNeighboringStones(action, localStoneGroup, localBoard)
+        actionX, actionY = action
 
-        checkedOpposite = 5 * [5 * [0]]  # keeping track of whether piece is already checked
-        for stone in localStoneGroup[action]: # Check all pieces in a group
-            stoneX = stone[0]
-            stoneY = stone[1]
+        # Update the board and the stoneGroups with the current player's move
+        self.stoneGroups[action] = {action}
+        self.board[actionX][actionY] = self.turn
+
+        # Merge the new stone with neighboring stones
+        self.MergeNeighboringStones(action, self.stoneGroups, self.board)
+
+        # Check whether any of the opponent's stones should flip
+        checkedOpposite = 5 * [5 * [False]]  # keeping track of whether opponent stone is already checked (for faster performance)
+        for stone in self.stoneGroups[action]:  # Check all stones in the new group
+            stoneX, stoneY = stone
+            # Search for any neighboring opponent's stones
             for x in range(stoneX - 1, stoneX + 2):
                 for y in range(stoneY - 1, stoneY + 2):
+                    # Ignore diagonals
                     if (abs(x - stoneX) + abs(y - stoneY)) is not 1:
                         continue
+                    # Make sure neighbor is on the board
                     elif x < 0 or x > 4 or y < 0 or y > 4:
                         continue
-                    elif localBoard[x][y] is None:
+                    # Ignore empty places
+                    elif self.board[x][y] is None:
                         continue
-                    elif checkedOpposite[x][y] == 1:
+                    # Ignore opponent's stones that were already checked
+                    elif checkedOpposite[x][y] == True:
                         continue
-                    elif localBoard[x][y] is not self.turn:
-                        if self.IsGroupTrapped(localStoneGroup, localBoard, (x, y)):
-                            self.MergeGroups(localStoneGroup, (x, y), stone)
-                            for oppStone in localStoneGroup[(x, y)]:
-                                oppStoneX = oppStone[0]
-                                oppStoneY = oppStone[1]
-                                localBoard[oppStoneX][oppStoneY] = self.turn
-
+                    # Found an unchecked opponent's stone!
+                    elif self.board[x][y] is not self.turn:
+                        # Is the opponent's stone's group trapped? Can replace with ours then!
+                        if self.IsGroupTrapped(self.stoneGroups, self.board, (x, y)):
+                            self.MergeGroups(self.stoneGroups, (x, y), stone)  # Merge opponent's group with ours
+                            # Change the color of their stones to ours
+                            for oppStone in self.stoneGroups[(x, y)]:
+                                oppStoneX, oppStoneY = oppStone
+                                self.board[oppStoneX][oppStoneY] = self.turn
+                                # If the opponent's group had any neighboring stones that were ours, merge those into a single group as well
                                 for oppX in range(oppStoneX - 1, oppStoneX + 2):
                                     for oppY in range(oppStoneY - 1, oppStoneY + 2):
+                                        # Ignore diagonals
                                         if (abs(oppX - oppStoneX) + abs(oppY - oppStoneY)) is not 1:
                                             continue
+                                        # Make sure location is on the board
                                         if oppX < 0 or oppX > 4 or oppY < 0 or oppY > 4:
                                             continue
-                                        if localBoard[oppX][oppY] is self.turn:
-                                            self.MergeGroups(localStoneGroup, (oppX, oppY), stone)
-
-                        for oppStone in localStoneGroup[(x, y)]:
-                            oppStoneX = oppStone[0]
-                            oppStoneY = oppStone[1]
-                            checkedOpposite[oppStoneX][oppStoneY] = 1
-
-        self.board = self.CopyBoard(localBoard)
-        self.stoneGroups = self.CopyStoneGroups(localStoneGroup)
-
-        self.UpdateStoneCount()
-
+                                        # If the stone is our's merge that stone's group with our 'trapping' group
+                                        if self.board[oppX][oppY] is self.turn:
+                                            self.MergeGroups(self.stoneGroups, (oppX, oppY), stone)
+                        # Keep track off all the opponent's stones we've already visited, so we don't have to revisit them again (faster performance)
+                        for oppStone in self.stoneGroups[(x, y)]:
+                            oppStoneX, oppStoneY = oppStone
+                            checkedOpposite[oppStoneX][oppStoneY] = True
+        # Turn is complete, update the game state
+        self.UpdateGameStateVariables()
         return self
 
-    def UpdateStoneCount(self):
-        """Updates the count of black and white stones on the board
+    def UpdateGameStateVariables(self):
+        """Updates the game state variables after a turn is complete.
+        This includes:
+            Count of black and white stones on the board
+            Whose turn it is
 
         inputs:
             None
         returns:
             None
         """
+        # Update stone count
         self.numBlack = 0
         self.numWhite = 0
         for row in self.board:
@@ -121,6 +142,12 @@ class GameState:
                     self.numBlack += 1
                 elif stone == 'W':
                     self.numWhite += 1
+        # Update whose turn it is
+        if self.turn == 'B':
+            self.turn = 'W'
+        else:
+            self.turn = 'B'
+
 
     def IsGroupTrapped(self, stoneGroup, board, exampleStoneInGroup):
         """Check's whether a stone's group is trapped or not. This means that there is not empty spaces around the group, and at least 1 outer edge
@@ -135,8 +162,7 @@ class GameState:
         edge = False
         # The only way the stone can flip color to the oppositions is if it's group is surrounded by the opposition's stone, and at least 1 edge
         for stone in stoneGroup[exampleStoneInGroup]:  # Check all stones in a group
-            stoneX = stone[0]
-            stoneY = stone[1]
+            stoneX, stoneY = stone
             # See whether there are any empty spaces around the stone. If there are, then it is a legal move
             for x in range(stoneX - 1, stoneX + 2):
                 for y in range(stoneY - 1, stoneY + 2):
@@ -172,8 +198,7 @@ class GameState:
         localBoard = self.CopyBoard(board)
         localStoneGroup = self.CopyStoneGroups(stoneGroup)
 
-        actionX = action[0]
-        actionY = action[1]
+        actionX, actionY = action
 
         # Update the board and the stoneGroup with this new action
         localStoneGroup[action] = {action}
@@ -223,8 +248,8 @@ class GameState:
         returns:
             None
         """
-        actionX = action[0]
-        actionY = action[1]
+        actionX, actionY = action
+
         for _ in range(2):  # Do it twice, to make sure all neighbors are updated since first pass
             # Check all direct neighbors of the new stone on the grid
             for x in range(actionX - 1, actionX + 2):
