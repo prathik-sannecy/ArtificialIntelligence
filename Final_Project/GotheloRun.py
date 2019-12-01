@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
-# Random-move Gothello player.
+# Gothello player using depth limited search.
 # Leveraged from:
 # https://github.com/pdx-cs-ai/gothello-libclient-python3
 
 import random
 import sys
 
-import Final_Project.gthclient as gthclient
-import Final_Project.GameState as GameState
-import Final_Project.MiniMax as MiniMax
+import gthclient
+import GameState
+import MiniMax
 
 me = sys.argv[1]
 opp = gthclient.opponent(me)
@@ -21,10 +21,6 @@ depthSearch = 3
 def letter_range(letter):
     for i in range(5):
         yield chr(ord(letter) + i)
-
-board = {letter + digit
-         for letter in letter_range('a')
-         for digit in letter_range('1')}
 
 grid = {"white": set(), "black": set()}
 
@@ -45,12 +41,14 @@ side = "black"
 gameState = GameState.GameState()
 
 def IndexPosToStrPos(indexPos):
+    """Translate a move from my format to server's side's format"""
     if indexPos == 'pass':
         return 'pass'
     numToLet = {0: 'a', 1: 'b', 2: 'c', 3: 'd', 4: 'e'}
     return numToLet[indexPos[1]] + str(5 - indexPos[0])
 
 def StrPosToIndexPos(strPos):
+    """Translate a move from client's side format to my format"""
     if strPos == 'pass':
         return 'pass'
     letToNum = {'a': 4, 'b': 3, 'c': 2, 'd': 1, 'e': 0}
@@ -60,22 +58,18 @@ def StrPosToIndexPos(strPos):
 
 while True:
     show_position()
-    if side == me:
-        move = MiniMax.MiniMaxDecision(gameState, depthSearch)
-        gameState.Result(move)
-        print(move)
+    if side == me:  # my turn
+        move = MiniMax.MiniMaxDecision(gameState, depthSearch)  # find the best move
+        gameState.Result(move)  # do the best move
         print("me:", move, IndexPosToStrPos(move))
-        print(gameState.board)
-        move = IndexPosToStrPos(move)
+        move = IndexPosToStrPos(move)  # translate the move from my format to the server's format
         try:
             client.make_move(move)
-            # grid[me].add(move)
-            # board.remove(move)
         except gthclient.MoveError as e:
             if e.cause == e.ILLEGAL:
                 print("me: made illegal move, passing")
                 client.make_move("pass")
-    else:
+    else:  # opponent's turn
         cont, move = client.get_move()
         print("opp:", move)
         if cont and move == "pass":
@@ -86,6 +80,5 @@ while True:
             if not cont:
                 break
             gameState = gameState.Result(StrPosToIndexPos(move))
-            print(gameState.board)
 
     side = gthclient.opponent(side)
