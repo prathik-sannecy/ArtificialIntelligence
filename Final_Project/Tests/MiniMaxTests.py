@@ -36,7 +36,7 @@ class TestMinMax(unittest.TestCase):
     #        /   \
     #       6      2
     #      / \    / \
-    #     3   4  1   7
+    #     3   7  1   4
 
     def InitializeTestState(self):
         StateTree = BinaryTreeNode(2)
@@ -60,6 +60,18 @@ class TestMinMax(unittest.TestCase):
     def test_MiniMaxDecision(self):
         testState = self.InitializeTestState()
         assert(MiniMaxDecision(testState).val == 6)
+
+    def test_MinValueDepth(self):
+        testState = self.InitializeTestState()
+        assert(MinValue(testState, 2) == 2)
+
+    def test_MaxValueDepth(self):
+        testState = self.InitializeTestState()
+        assert(MaxValue(testState, 2) == 6)
+
+    def test_MiniMaxDecisionDepth(self):
+        testState = self.InitializeTestState()
+        assert(MiniMaxDecision(testState, 3).val == 6)
 
 
 
