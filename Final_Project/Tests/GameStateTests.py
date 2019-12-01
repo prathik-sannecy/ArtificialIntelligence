@@ -91,7 +91,7 @@ class TestGameState(unittest.TestCase):
         gameState.stoneGroups = self.InitializeGameStateStoneGroups()
         actions = gameState.GetActions()
 
-        expected = {(1, 3), (1, 4), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), "Pass"}
+        expected = {(1, 3), (1, 4), (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), "pass"}
         assert(((0, 1) in actions) == False)
         assert(((1, 3) in actions) == True)
 
