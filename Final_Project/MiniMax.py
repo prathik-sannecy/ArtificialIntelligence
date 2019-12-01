@@ -16,6 +16,11 @@ def MiniMaxDecision(state, maxDepth = float('inf')):
         if actionMaxMinValue > maxMinValue:
             maxMinValue = actionMaxMinValue
             maxAction = action
+        # Give preference to center squares
+        elif actionMaxMinValue == maxMinValue:
+            if (abs(action[0] - 2) + abs(action[1] - 2)) < (abs(maxAction[0] - 2) + abs(maxAction[1] - 2)):
+                maxAction = action
+
     return maxAction
 
 
