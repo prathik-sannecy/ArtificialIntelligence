@@ -4,13 +4,14 @@ from copy import copy, deepcopy
 class GameState():
     """Current State of the game"""
 
-    def __init__(self):
+    def __init__(self, player):
         self.board = [[None for i in range(5)] for j in range(5)]  # 5x5 board
         self.numWhite = 0
         self.numBlack = 0
         self.passCount = 0
         self.stoneGroups = {}
         self.turn = 'B'
+        self.player = player
 
     def Utility(self):
         """Heuristic to keep track of who's ahead. Black stone = +1, white stone = -1
@@ -20,7 +21,10 @@ class GameState():
         returns:
             (int)heuristic: number of black stones - number of white stones
         """
-        return self.numBlack - self.numWhite
+        if self.player == 'black':
+            return self.numBlack - self.numWhite
+        else:
+            return self.numWhite - self.numBlack
 
     def TerminalTest(self):
         """Returns whether the current state of the game indicates that it's terminated.

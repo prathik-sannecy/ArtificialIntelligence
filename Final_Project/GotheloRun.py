@@ -38,7 +38,7 @@ def show_position():
         print()
 
 side = "black"
-gameState = GameState.GameState()
+gameState = GameState.GameState(me)
 
 def IndexPosToStrPos(indexPos):
     """Translate a move from my format to server's side's format"""
