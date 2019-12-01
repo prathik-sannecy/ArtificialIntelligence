@@ -1,11 +1,11 @@
 from copy import copy, deepcopy
 
 
-class GameState:
+class GameState():
     """Current State of the game"""
 
     def __init__(self):
-        self.board = [5 * [5 * [None]]]  # 5x5 board
+        self.board = [[None for i in range(5)] for j in range(5)]  # 5x5 board
         self.numWhite = 0
         self.numBlack = 0
         self.passCount = 0
@@ -50,7 +50,7 @@ class GameState:
                 if dot == None:
                     if self.IsLegal(self.stoneGroups, self.board, (rowIndex, colIndex)):
                         actions.append((rowIndex, colIndex))
-        actions.append("Pass")  # Player always has the option to pass
+        actions.append("pass")  # Player always has the option to pass
         return actions
 
     def Result(self, action):
@@ -62,7 +62,7 @@ class GameState:
             (GameState)gameState: new state of the game after current move
         """
         # If the player decides to pass, then increment the passCount and let it be the other player's turn
-        if action == 'Pass':
+        if action == 'pass':
             self.passCount += 1
             self.UpdateGameStateVariables()
             return self
@@ -152,7 +152,7 @@ class GameState:
             self.turn = 'B'
 
     def IsGroupTrapped(self, stoneGroup, board, exampleStoneInGroup):
-        """Check's whether a stone's group is trapped or not. This means that there is not empty spaces around the group, and at least 1 outer edge
+        """Check's whether a stone's group is trapped or not. This means that there is not empty spaces around the group
 
         inputs:
             (tuple((int), (int)))exampleStoneInGroup: stone within the group
@@ -162,7 +162,7 @@ class GameState:
             (bool)trapped: true if the exampleStoneInGroup's group is trapped or not
         """
         edge = False
-        # The only way the stone can flip color to the oppositions is if it's group is surrounded by the opposition's stone, and at least 1 edge
+        # The only way the stone can flip color to the oppositions is if it's group is surrounded by the opposition's stone, or the outer walls
         for stone in stoneGroup[exampleStoneInGroup]:  # Check all stones in a group
             stoneX, stoneY = stone
             # See whether there are any empty spaces around the stone. If there are, then it is a legal move
@@ -173,15 +173,16 @@ class GameState:
                         continue
                     # Check whether the group has an edge surrounding it
                     if x < 0 or x > 4 or y < 0 or y > 4:
-                        edge = True
+                        # edge = True
                         continue
                     # At least one empty spot, so not trapped, which makes the move legal
                     if board[x][y] is None:
                         return False
-        # If there aren't any empty spots surrounding the group, and there is an edge, then the group is trapped, which is not legal
-        if edge:
-            return True
-        return False
+        # If there aren't any empty spots surrounding the group, then the group is trapped, which is not legal
+        # if edge:
+        #     return True
+        # return False
+        return True
 
     def IsLegal(self, stoneGroup, board, action):
         """Checks whether a player's move is legal or not
