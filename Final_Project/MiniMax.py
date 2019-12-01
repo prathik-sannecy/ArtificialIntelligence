@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 def MiniMaxDecision(state, maxDepth = float('inf')):
     """Decides what action to do that will maximize the minimax value
 
@@ -9,7 +11,8 @@ def MiniMaxDecision(state, maxDepth = float('inf')):
     maxAction = None
     maxMinValue = float("-inf")
     for action in state.GetActions():
-        actionMaxMinValue = MinValue(state.Result(action), maxDepth, 0)
+        localCopyState = deepcopy(state)
+        actionMaxMinValue = MinValue(localCopyState.Result(action), maxDepth, 0)
         if actionMaxMinValue > maxMinValue:
             maxMinValue = actionMaxMinValue
             maxAction = action
@@ -29,7 +32,8 @@ def MinValue(state, maxDepth = float('inf'), depthCount = 0):
         return state.Utility()
     minValue = float("inf")
     for action in state.GetActions():
-        minValue = min(MaxValue(state.Result(action), maxDepth, depthCount), minValue)
+        localCopyState = deepcopy(state)
+        minValue = min(MaxValue(localCopyState.Result(action), maxDepth, depthCount), minValue)
     return minValue
 
 
@@ -46,5 +50,6 @@ def MaxValue(state, maxDepth = float('inf'), depthCount = 0):
         return state.Utility()
     maxValue = float("-inf")
     for action in state.GetActions():
-        maxValue = max(MinValue(state.Result(action), maxDepth, depthCount), maxValue)
+        localCopyState = deepcopy(state)
+        maxValue = max(MinValue(localCopyState.Result(action), maxDepth, depthCount), maxValue)
     return maxValue
