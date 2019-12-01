@@ -1,9 +1,11 @@
 from copy import copy, deepcopy
 
+
 class GameState:
     """Current State of the game"""
+
     def __init__(self):
-        self.board = [5*[5*[None]]]  # 5x5 board
+        self.board = [5 * [5 * [None]]]  # 5x5 board
         self.numWhite = 0
         self.numBlack = 0
         self.passCount = 0
@@ -75,7 +77,8 @@ class GameState:
         self.MergeNeighboringStones(action, self.stoneGroups, self.board)
 
         # Check whether any of the opponent's stones should flip
-        checkedOpposite = 5 * [5 * [False]]  # keeping track of whether opponent stone is already checked (for faster performance)
+        checkedOpposite = 5 * [
+            5 * [False]]  # keeping track of whether opponent stone is already checked (for faster performance)
         for stone in self.stoneGroups[action]:  # Check all stones in the new group
             stoneX, stoneY = stone
             # Search for any neighboring opponent's stones
@@ -148,7 +151,6 @@ class GameState:
         else:
             self.turn = 'B'
 
-
     def IsGroupTrapped(self, stoneGroup, board, exampleStoneInGroup):
         """Check's whether a stone's group is trapped or not. This means that there is not empty spaces around the group, and at least 1 outer edge
 
@@ -181,7 +183,6 @@ class GameState:
             return True
         return False
 
-
     def IsLegal(self, stoneGroup, board, action):
         """Checks whether a player's move is legal or not
 
@@ -208,7 +209,6 @@ class GameState:
         # Now see whether this actions was actually valid or not
         # It is not legal if it causes the current player's stones to flip to the opposition's color because it is trapped
         return not self.IsGroupTrapped(localStoneGroup, localBoard, action)
-
 
     def MergeGroups(self, stoneGroup, val1, val2):
         """Merge two separate stone groups together

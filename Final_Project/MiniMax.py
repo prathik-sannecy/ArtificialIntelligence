@@ -15,6 +15,7 @@ def MiniMaxDecision(state):
             maxAction = action
     return maxAction
 
+
 def MinValue(state):
     """Returns what the minimum minimax value can be for the opponent's turn when the game has terminated
 
@@ -30,6 +31,7 @@ def MinValue(state):
         minValue = min(MaxValue(state.Result(action)), minValue)
     return minValue
 
+
 def MaxValue(state):
     """Returns what the maximum minimax value can be for the opponent's turn when the game has terminated
 
@@ -44,4 +46,3 @@ def MaxValue(state):
     for action in state.GetActions():
         maxValue = max(MinValue(state.Result(action)), maxValue)
     return maxValue
-
