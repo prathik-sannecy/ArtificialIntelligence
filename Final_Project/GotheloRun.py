@@ -16,7 +16,7 @@ opp = gthclient.opponent(me)
 
 client = gthclient.GthClient(me, "localhost", 0)
 
-depthSearch = 3
+depthSearch = int(sys.argv[2])
 
 def letter_range(letter):
     for i in range(5):
