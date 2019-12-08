@@ -1,11 +1,7 @@
-Project: Final Project Gothello
-
-Class: PSU CS 441/541 - Artificial Intelligence (Fall 2019)
-
-Author: Prathik Sannecy
-
-Email: prathik@pdx.edu
-
+Project: Gothello  
+Class: PSU CS 441/541 - Artificial Intelligence (Fall 2019)  
+Author: Prathik Sannecy  
+Email: prathik@pdx.edu  
 Date: 12/5/19
 
 This project provides a player to play the game Gothello (Gothello description can be found here: https://github.com/pdx-cs-ai/gothello-project/blob/master/README.md). It connects to the Gothello Game Server, and can play as either the 'white' or 'black' player.
@@ -25,11 +21,12 @@ From this project, I learned how to write a program using AI to play a game simi
 In the future, I would like to try the following:
 1. Write the program in C, so that it runs faster and can use a larger depth
 2. Use a better heuristic. The difference in the number of stones (described above) is a very simple heuristic, but can be improved. For example, stones in different positions may be worth more (and thus have a larger weight) than stone in other positions.
-3. Keep a list of states near the end of the game that show what move I should do next to guarantee a win. Then, if I ever reach one of states, I can just follow the list to win the game.
+3. Keep a list of states near the end of the game that show what move I should do next to guarantee a win. Then, if I ever reach one of these states, I can just follow the list to win the game.
 
 To run this program (automatically runs on server number 0):
 1. Run the Gothello Game Server (https://github.com/pdx-cs-ai/gothello-gthd): java Gthd 0
-2. Run this Gothello player: python3 GothelloRun.py [white|black] [search depth]
-3. Run the opponent. Can be either this same program, the random player (see above), or the Java Grossthello player (see above)
+2. Run this Gothello player: python3 GothelloRun.py [white|black] [search depth]  
+Example: python3 GothelloRun.py white 3
+3. Run the opponent. Can be either this same program, the random player (see above), or the Java Grossthello player (see above)  
 
 The output is sent to stdout from the Gothello Game Server.
